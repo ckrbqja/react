@@ -7,7 +7,7 @@ function AllMeetups() {
     const [loadedMeetups, setLoadedMeetups] = useState([]);
 
     useEffect(() => {
-        (async function (){
+        (async () => {
             const data = await fetch('https://react-getting-start-18e6c-default-rtdb.firebaseio.com/meetups.json')
             const meetups = Object.entries(await data.json()).map(d => ({
                 id: d[0],
@@ -16,19 +16,16 @@ function AllMeetups() {
             setLoadedMeetups(meetups)
             setIsLoading(false)
         })()
-    },[]);
+    }, []);
 
 
-
-    if (isLoading) {
-        return <section><p>Loading...</p></section>
-    }
-
-
-    return <section>
-        <h1>All Meetups</h1>
-        <MeetupList meetups={loadedMeetups}/>
-    </section>;
+    return isLoading ?
+        <section><p>Loading...</p></section>
+        : (
+            <section>
+                <h1>All Meetups</h1>
+                <MeetupList meetups={loadedMeetups}/>
+            </section>)
 }
 
 export default AllMeetups;
